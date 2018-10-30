@@ -39,7 +39,7 @@ class LycaonTest extends TestCase
 	{
 		$this->assertInstanceOf(
 			Lycaon::class,
-			$l = Lycaon::url('rss2_feed_url')
+			$l = Lycaon::url('https://feedforall.com/sample-feed.xml')
 		);
 
 		$this->assertInstanceOf(

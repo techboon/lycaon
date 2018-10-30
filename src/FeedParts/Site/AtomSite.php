@@ -7,13 +7,11 @@ use Lycaon\FeedParts\Post\Posts;
 class AtomSite implements SiteInterface
 {
 	private $content;
-	private $posts;
 	private $url;
 
 	private function __construct(\SimpleXmlElement $xml)
 	{
 		$this->content = $xml;
-		$this->posts = null;
 		$this->url = null;
 	}
 
@@ -40,13 +38,5 @@ class AtomSite implements SiteInterface
 			}
 		}
 		return $this->url;
-	}
-
-	public function posts(): Posts
-	{
-		if (is_null($this->posts)) {
-			$this->posts = Posts::parse($this->content);
-		}
-		return $this->posts;
 	}
 }

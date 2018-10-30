@@ -9,6 +9,4 @@ interface SiteInterface
 	public static function parse(\SimpleXmlElement $xml): SiteInterface;
 	public function title(): string;
 	public function url(): string;
-
-	public function posts(): Posts;
 }

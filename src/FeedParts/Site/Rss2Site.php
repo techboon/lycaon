@@ -7,12 +7,12 @@ use Lycaon\FeedParts\Post\Posts;
 class Rss2Site implements SiteInterface
 {
 	private $content;
-	private $posts;
+	private $url;
 
 	private function __construct(\SimpleXmlElement $xml)
 	{
 		$this->content = $xml;
-		$this->posts = null;
+		$this->url = null;
 	}
 
 	public static function parse(\SimpleXmlElement $xml): SiteInterface
@@ -28,13 +28,5 @@ class Rss2Site implements SiteInterface
 	public function url(): string
 	{
 		return strval($this->content->channel->link);
-	}
-
-	public function posts(): Posts
-	{
-		if (is_null($this->posts)) {
-			$this->posts = Posts::parse($this->content);
-		}
-		return $this->posts;
 	}
 }

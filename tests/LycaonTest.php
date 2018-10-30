@@ -2,10 +2,13 @@
 
 namespace Lycaon;
 
-use PHPUnit\Framework\TestCase;
-use Lycaon\FeedParts\Site\Sites;
+use Lycaon\FeedParts\Post\AtomPost;
+use Lycaon\FeedParts\Post\Posts;
+use Lycaon\FeedParts\Post\Rss2Post;
 use Lycaon\FeedParts\Site\AtomSite;
 use Lycaon\FeedParts\Site\Rss2Site;
+use Lycaon\FeedParts\Site\Sites;
+use PHPUnit\Framework\TestCase;
 
 class LycaonTest extends TestCase
 {
@@ -20,11 +23,16 @@ class LycaonTest extends TestCase
 			AtomSite::class,
 			$l->site()
 		);
-		
-		// sample: list by post titles
-		// foreach ($l->site()->posts() as $post) {
-		// 	var_dump($post->title());
-		// }
+
+		$this->assertInstanceOf(
+			Posts::class,
+			$l->posts()
+		);
+
+		$this->assertInstanceOf(
+			AtomPost::class,
+			$l->posts()->first()
+		);
 	}
 
 	public function testRss2()
@@ -37,6 +45,16 @@ class LycaonTest extends TestCase
 		$this->assertInstanceOf(
 			Rss2Site::class,
 			$l->site()
+		);
+
+		$this->assertInstanceOf(
+			Posts::class,
+			$l->posts()
+		);
+
+		$this->assertInstanceOf(
+			Rss2Post::class,
+			$l->posts()->first()
 		);
 	}
 }

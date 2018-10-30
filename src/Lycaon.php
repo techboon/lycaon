@@ -3,10 +3,15 @@
 namespace Lycaon;
 
 use GuzzleHttp\Client;
+use Lycaon\FeedParts\Site\Sites;
 
 class Lycaon
 {
 	private static $singletonClient;
+
+	private $content;
+	private $url;
+	private $sites;
 
 	private static function constructClient()
 	{
@@ -15,30 +20,28 @@ class Lycaon
 		}
 	}
 
-	public static function rss(string $url): Rss
-	{
-		return Rss::fromXml(
-			self::get($url)
-		);
-	}
-
-	private static function get(string $url): Rss
+	public static function url(string $url)
 	{
 		self::constructClient();
-
 		$res = self::$singletonClient->request('GET', $url);
-		
-		switch($res->getHeaderLine('content-type')) {
-			case 'application/atom+xml':
-				return Rss::fromAtom($res->getBody());
-				break;
-			case 'application/rss+xml':
-			case 'application/rdf+xml':
-			case 'application/xml':
-			case 'application/rdf+xml':
-			default:
-				return Rss::fromRss($res->getBody());
-				break;
+		$xml = new \SimpleXMLElement((string)$res->getBody());
+
+		return new self($xml, $url);
+	}
+
+	private function __construct(\SimpleXMLElement $xml, string $url = null)
+	{
+		$this->url = $url;
+		$this->content = $xml;
+		$this->sites = null;
+	}
+
+	public function sites()
+	{
+		if (is_null($this->sites)) {
+			$this->sites = Sites::parse($this->content);
 		}
+
+		return $this->sites;
 	}
 }

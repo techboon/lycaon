@@ -4,14 +4,15 @@ namespace Lycaon;
 
 use GuzzleHttp\Client;
 use Lycaon\FeedParts\Site\Sites;
+use Lycaon\FeedParts\Post\Posts;
 
 class Lycaon
 {
 	private static $singletonClient;
 
-	private $content;
 	private $url;
-	private $sites;
+	private $site;
+	private $posts;
 
 	private static function constructClient()
 	{
@@ -32,16 +33,17 @@ class Lycaon
 	private function __construct(\SimpleXMLElement $xml, string $url = null)
 	{
 		$this->url = $url;
-		$this->content = $xml;
-		$this->sites = null;
+		$this->site = Sites::parse($xml);
+		$this->posts = Posts::parse($xml);
 	}
 
-	public function sites()
+	public function site()
 	{
-		if (is_null($this->sites)) {
-			$this->sites = Sites::parse($this->content);
-		}
+		return $this->site;
+	}
 
-		return $this->sites;
+	public function posts()
+	{
+		return $this->posts;
 	}
 }

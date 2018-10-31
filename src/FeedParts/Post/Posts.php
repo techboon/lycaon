@@ -24,7 +24,7 @@ class Posts implements \IteratorAggregate
         $this->posts = $posts;
     }
 
-    public static function parse(\SimpleXmlElement $xml)
+    public static function parse(\SimpleXmlElement $xml): Posts
     {
         if (isset($xml->entry)) {
             $posts = AtomPost::parseAll($xml->entry);

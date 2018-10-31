@@ -49,7 +49,10 @@ class AtomPost implements PostInterface
 
         $this->url = '';
         foreach ($this->content->link as $link) {
-            if ('alternate' === strval($link['rel'])) {
+            if (
+                ('alternate' === strval($link['rel']))
+                || (true !== isset($link['rel']))
+            ) {
                 $this->url = strval($link['href']);
             }
         }

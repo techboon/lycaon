@@ -99,6 +99,28 @@ EOF;
 		);
 	}
 
+	/**
+	 * @depends testParseAtom
+	 */
+	public function testGetAtom(Posts $posts)
+	{
+		$this->assertSame(
+			$posts->first(),
+			$posts->get(0)
+		);
+
+		$post = $posts->get(1);
+		$this->assertSame(
+			'test-entry-title-2',
+			$post->title()
+		);
+
+		$this->assertSame(
+			'https://github.com/techboon/lycaon/post-2',
+			$post->url()
+		);
+	}
+
 	public function testParseRss2()
 	{
 		$xml = new \SimpleXmlElement($this->rss2Feed);
@@ -127,6 +149,28 @@ EOF;
 		$this->assertSame(
 			'https://github.com/techboon/lycaon/post-1',
 			$posts->first()->url()
+		);
+	}
+
+	/**
+	 * @depends testParseRss2
+	 */
+	public function testGetRss2(Posts $posts)
+	{
+		$this->assertSame(
+			$posts->first(),
+			$posts->get(0)
+		);
+
+		$post = $posts->get(1);
+		$this->assertSame(
+			'test-item-title-2',
+			$post->title()
+		);
+
+		$this->assertSame(
+			'https://github.com/techboon/lycaon/post-2',
+			$post->url()
 		);
 	}
 }

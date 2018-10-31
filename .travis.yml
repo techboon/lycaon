@@ -8,3 +8,4 @@ install:
   - composer install
 script:
   - make test
+  - make cs

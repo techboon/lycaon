@@ -16,7 +16,7 @@ class LycaonTest extends TestCase
 	{
 		$this->assertInstanceOf(
 			Lycaon::class,
-			$l = Lycaon::url('atom_feed_url')
+			$l = Lycaon::url('https://gihyo.jp/feed/atom')
 		);
 
 		$this->assertInstanceOf(

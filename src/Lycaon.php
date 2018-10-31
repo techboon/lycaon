@@ -94,7 +94,7 @@ class Lycaon
      *
      * @return void
      */
-    private function __construct(\SimpleXMLElement $xml): void
+    private function __construct(\SimpleXMLElement $xml)
     {
         $this->site  = Sites::parse($xml);
         $this->posts = Posts::parse($xml);

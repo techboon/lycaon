@@ -6,9 +6,12 @@ use PHPUnit\Framework\TestCase;
 
 class PostsTest extends TestCase
 {
-	public function testParseAtom()
+private $atomFeed;
+	private $rss2Feed;
+
+	public function setup()
 	{
-		$feed = <<<EOF
+		$this->atomFeed = <<<EOF
 <?xml version="1.0" encoding="UTF-8" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>test-title</title>
@@ -29,21 +32,8 @@ class PostsTest extends TestCase
 </entry>
 </feed>
 EOF;
-		$xml = new \SimpleXmlElement($feed);
-		$this->assertInstanceOf(
-			Posts::class,
-			$posts = Posts::parse($xml)
-		);
 
-		$this->assertInstanceOf(
-			AtomPost::class,
-			$posts->first()
-		);
-	}
-
-	public function testParseRss2()
-	{
-		$feed = <<<EOF
+		$this->rss2Feed = <<<EOF
 <?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0">
 <channel>
@@ -62,7 +52,26 @@ EOF;
 </channel>
 </rss>
 EOF;
-		$xml = new \SimpleXmlElement($feed);
+
+	}
+
+	public function testParseAtom()
+	{
+		$xml = new \SimpleXmlElement($this->atomFeed);
+		$this->assertInstanceOf(
+			Posts::class,
+			$posts = Posts::parse($xml)
+		);
+
+		$this->assertInstanceOf(
+			AtomPost::class,
+			$posts->first()
+		);
+	}
+
+	public function testParseRss2()
+	{
+		$xml = new \SimpleXmlElement($this->rss2Feed);
 		$this->assertInstanceOf(
 			Posts::class,
 			$posts = Posts::parse($xml)

@@ -12,7 +12,7 @@ namespace Lycaon\FeedParts\Site;
  */
 class Sites
 {
-    public static function parse(\SimpleXmlElement $xml)
+    public static function parse(\SimpleXmlElement $xml): SiteInterface
     {
         if (isset($xml->entry)) {
             return AtomSite::parse($xml);

@@ -1,7 +1,9 @@
 <?php
 /**
- * lycaon rss/atom reader
- * author: techboon
+ * Lycaon rss/atom reader
+ * PHP version 7.1
+ *
+ * @author techboon <varna@techboon.info>
  */
 
 namespace Lycaon;
@@ -9,76 +11,92 @@ namespace Lycaon;
 use GuzzleHttp\Client;
 use Lycaon\FeedParts\Post\Posts;
 use Lycaon\FeedParts\Site\Sites;
+use Lycaon\FeedParts\Site\SiteInterface;
 
 /**
  * Lycaon main
  */
 class Lycaon
 {
-	/**
-	 * @var GuzzleHttp\Client
-	 */
-	private static $singletonClient;
+    /**
+     * Guzzle http client
+     *
+     * @var GuzzleHttp\Client
+     */
+    private static $singletonClient;
 
-	/**
-	 * @var Lycaon\FeedParts\Site\SiteInterface
-	 */
-	private $site;
+    /**
+     * Feed site
+     *
+     * @var Lycaon\FeedParts\Site\SiteInterface
+     */
+    private $site;
 
-	/**
-	 * @var Lycaon\FeedParts\Post\Posts
-	 */
-	private $posts;
+    /**
+     * Feed posts
+     *
+     * @var Lycaon\FeedParts\Post\Posts
+     */
+    private $posts;
 
-	/**
-	 * read rss/atom feed from url
-	 *
-	 * @param string $url
-	 * @return Lycaon
-	 */
-	public static function url(string $url): Lycaon
-	{
-		self::constructClient();
-		$res = self::$singletonClient->request('GET', $url);
-		$xml = new \SimpleXMLElement((string)$res->getBody());
+    /**
+     * Read rss/atom feed from url
+     *
+     * @param string $url
+     *
+     * @return Lycaon
+     */
+    public static function url(string $url): Lycaon
+    {
+        self::constructClient();
+        $res = self::$singletonClient->request('GET', $url);
+        $xml = new \SimpleXMLElement((string) $res->getBody());
 
-		return new self($xml, $url);
-	}
+        return new self($xml, $url);
+    }
 
-	/**
-	 * @return Lycaon\FeedParts\Site\SiteInterface
-	 */
-	public function site()
-	{
-		return $this->site;
-	}
+    /**
+     * Site
+     *
+     * @return SiteInterface
+     */
+    public function site(): SiteInterface
+    {
+        return $this->site;
+    }
 
-	/**
-	 * @return Lycaon\FeedParts\Post\Posts
-	 */
-	public function posts()
-	{
-		return $this->posts;
-	}
+    /**
+     * Posts
+     *
+     * @return Posts
+     */
+    public function posts(): Posts
+    {
+        return $this->posts;
+    }
 
-	/**
-	 * keep guzzle singleton
-	 */
-	private static function constructClient()
-	{
-		if (!isset(self::$singletonClient)) {
-			self::$singletonClient = new Client();
-		}
-	}
+    /**
+     * Keep guzzle singleton
+     *
+     * @return void
+     */
+    private static function constructClient(): void
+    {
+        if (true !== isset(self::$singletonClient)) {
+            self::$singletonClient = new Client();
+        }
+    }
 
-	/**
-	 * constructor
-	 *
-	 * @param \SimpleXMLElement $xml Feed xml
-	 */
-	private function __construct(\SimpleXMLElement $xml)
-	{
-		$this->site = Sites::parse($xml);
-		$this->posts = Posts::parse($xml);
-	}
+    /**
+     * Constructor
+     *
+     * @param \SimpleXMLElement $xml Feed xml
+     *
+     * @return void
+     */
+    private function __construct(\SimpleXMLElement $xml): void
+    {
+        $this->site  = Sites::parse($xml);
+        $this->posts = Posts::parse($xml);
+    }
 }

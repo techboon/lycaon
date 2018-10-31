@@ -77,10 +77,8 @@ class Lycaon
 
     /**
      * Keep guzzle singleton
-     *
-     * @return void
      */
-    private static function constructClient(): void
+    private static function constructClient()
     {
         if (true !== isset(self::$singletonClient)) {
             self::$singletonClient = new Client();
@@ -91,8 +89,6 @@ class Lycaon
      * Constructor
      *
      * @param \SimpleXMLElement $xml Feed xml
-     *
-     * @return void
      */
     private function __construct(\SimpleXMLElement $xml)
     {

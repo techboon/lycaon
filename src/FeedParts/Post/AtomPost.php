@@ -60,4 +60,10 @@ class AtomPost implements PostInterface
     {
         return strval($this->content->description);
     }
+
+    public function date(): \DateTime
+    {
+        $date = strval($this->content->updated);
+        return new \DateTime($date);
+    }
 }

@@ -47,4 +47,10 @@ class Rss2Post implements PostInterface
     {
         return strval($this->content->description);
     }
+
+    public function date(): \DateTime
+    {
+        $date = strval($this->content->pubDate);
+        return new \DateTime($date);
+    }
 }

@@ -47,4 +47,10 @@ class Rss2Post implements PostInterface
     {
         return strval($this->content->description);
     }
+
+    public function id(): string
+    {
+        $s = mb5($strval($this->content->url) . strval($this->content->pubDate));
+        return substr($s, 0, 12);
+    }
 }

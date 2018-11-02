@@ -16,4 +16,5 @@ interface PostInterface
     public static function parse(\SimpleXmlElement $xml): PostInterface;
     public function title(): string;
     public function url(): string;
+    public function date(): \DateTime;
 }

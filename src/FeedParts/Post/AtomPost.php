@@ -66,4 +66,9 @@ class AtomPost implements PostInterface
         $date = strval($this->content->updated);
         return new \DateTime($date);
     }
+  
+    public function id(): string
+    {
+        return strval($this->content->id);
+    }
 }

@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 class PostsTest extends TestCase
 {
-private $atomFeed;
+	private $atomFeed;
 	private $rss2Feed;
 
 	public function setup()

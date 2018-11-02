@@ -60,4 +60,9 @@ class AtomPost implements PostInterface
     {
         return strval($this->content->description);
     }
+
+    public function id(): string
+    {
+        return strval($this->content->id);
+    }
 }

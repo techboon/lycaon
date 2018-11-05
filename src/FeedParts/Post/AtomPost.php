@@ -58,7 +58,7 @@ class AtomPost implements PostInterface
 
     public function body(): string
     {
-        return strval($this->content->description);
+        return strval($this->content->summary);
     }
 
     public function date(): \DateTime

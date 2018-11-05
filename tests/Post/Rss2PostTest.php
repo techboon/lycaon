@@ -40,7 +40,7 @@ EOF;
     <description>test-item-description</description>
     <pubDate>Tue, 30 Oct 2018 15:28:00 +0900</pubDate>
   </item>
-{$this->rssPost}
+{$this->rss2Post}
 </channel>
 </rss>
 EOF;

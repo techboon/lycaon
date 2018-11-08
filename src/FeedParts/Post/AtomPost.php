@@ -36,6 +36,11 @@ class AtomPost implements PostInterface
         return new self($xml);
     }
 
+    public function id(): string
+    {
+        return strval($this->content->id);
+    }
+    
     public function title(): string
     {
         return strval($this->content->title);
@@ -65,10 +70,5 @@ class AtomPost implements PostInterface
     {
         $date = strval($this->content->updated);
         return new \DateTime($date);
-    }
-  
-    public function id(): string
-    {
-        return strval($this->content->id);
     }
 }

@@ -29,7 +29,7 @@ class Posts implements \IteratorAggregate
         if (isset($xml->entry)) {
             $posts = AtomPost::parseAll($xml->entry);
         } elseif (isset($xml->item)) {
-            // var_dump('RSS1');
+            $posts = Rss1Post::parseAll($xml->item);
         } elseif (isset($xml->channel) && isset($xml->channel->item)) {
             $posts = Rss2Post::parseAll($xml->channel->item);
         }

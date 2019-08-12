@@ -12,12 +12,12 @@ namespace Lycaon\FeedParts\Site;
  */
 class Sites
 {
-    public static function parse(\SimpleXmlElement $xml)
+    public static function parse(\SimpleXmlElement $xml): SiteInterface
     {
         if (isset($xml->entry)) {
             return AtomSite::parse($xml);
         } elseif (isset($xml->item)) {
-            // var_dump('RSS1');
+            return Rss1Site::parse($xml);
         } elseif (isset($xml->channel) && isset($xml->channel->item)) {
             return Rss2Site::parse($xml);
         }

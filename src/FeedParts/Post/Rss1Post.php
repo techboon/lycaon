@@ -8,18 +8,15 @@
 namespace Lycaon\FeedParts\Post;
 
 /**
- * atom post parser
+ * rss1 post parser
  */
-class AtomPost implements PostInterface
+class Rss1Post implements PostInterface
 {
     private $content;
-
-    private $url;
 
     private function __construct(\SimpleXmlElement $xml)
     {
         $this->content = $xml;
-        $this->url = null;
     }
 
     public static function parseAll(\SimpleXmlElement $xml): array
@@ -38,7 +35,8 @@ class AtomPost implements PostInterface
 
     public function id(): string
     {
-        return strval($this->content->id);
+        $s = md5($this->title() . $this->url());
+        return substr($s, 0, 16);
     }
     
     public function title(): string
@@ -48,27 +46,17 @@ class AtomPost implements PostInterface
 
     public function url(): string
     {
-        if (!is_null($this->url)) {
-            return $this->url;
-        }
-
-        $this->url = '';
-        foreach ($this->content->link as $link) {
-            if (('alternate' === strval($link['rel'])) || (true !== isset($link['rel']))) {
-                $this->url = strval($link['href']);
-            }
-        }
-        return $this->url;
+        return strval($this->content->link);
     }
 
     public function body(): string
     {
-        return strval($this->content->summary);
+        return strval($this->content->description);
     }
 
     public function date(): \DateTime
     {
-        $date = strval($this->content->updated);
+        $date = strval($this->content->children('http://purl.org/dc/elements/1.1/')->date);
         return new \DateTime($date);
     }
 }

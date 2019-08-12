@@ -4,8 +4,10 @@ namespace Lycaon;
 
 use Lycaon\FeedParts\Post\AtomPost;
 use Lycaon\FeedParts\Post\Posts;
+use Lycaon\FeedParts\Post\Rss1Post;
 use Lycaon\FeedParts\Post\Rss2Post;
 use Lycaon\FeedParts\Site\AtomSite;
+use Lycaon\FeedParts\Site\Rss1Site;
 use Lycaon\FeedParts\Site\Rss2Site;
 use Lycaon\FeedParts\Site\Sites;
 use PHPUnit\Framework\TestCase;
@@ -31,6 +33,29 @@ class LycaonTest extends TestCase
 
 		$this->assertInstanceOf(
 			AtomPost::class,
+			$l->posts()->first()
+		);
+	}
+
+	public function testRss1()
+	{
+		$this->assertInstanceOf(
+			Lycaon::class,
+			$l = Lycaon::url('https://gihyo.jp/dev/feed/rss1')
+		);
+
+		$this->assertInstanceOf(
+			Rss1Site::class,
+			$l->site()
+		);
+
+		$this->assertInstanceOf(
+			Posts::class,
+			$l->posts()
+		);
+
+		$this->assertInstanceOf(
+			Rss1Post::class,
 			$l->posts()->first()
 		);
 	}

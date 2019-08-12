@@ -33,6 +33,12 @@ class Rss2Post implements PostInterface
         return new self($xml);
     }
 
+    public function id(): string
+    {
+        $s = md5($this->title() . $this->url());
+        return substr($s, 0, 16);
+    }
+    
     public function title(): string
     {
         return strval($this->content->title);
@@ -46,5 +52,11 @@ class Rss2Post implements PostInterface
     public function body(): string
     {
         return strval($this->content->description);
+    }
+
+    public function date(): \DateTime
+    {
+        $date = strval($this->content->pubDate);
+        return new \DateTime($date);
     }
 }
